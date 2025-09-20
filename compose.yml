@@ -8,3 +8,22 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+
+  node-exporter:
+    image: prom/node-exporter:1.9.0
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
