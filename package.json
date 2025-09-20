@@ -1,0 +1,14 @@
+{
+  "name": "express-api",
+  "version": "1.0.0",
+  "description": "This app will be training api for test my DevOps skills",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sython",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
