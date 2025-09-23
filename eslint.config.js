@@ -15,8 +15,8 @@ export default [
         global: "readonly",
         module: "readonly",
         require: "readonly",
-        exports: "readonly",
-      },
+        exports: "readonly"
+      }
     },
     rules: {
       "no-unused-vars": "warn",
@@ -24,7 +24,6 @@ export default [
       semi: ["error", "always"],
       quotes: ["error", "double"],
       indent: ["error", 2],
-      "comma-dangle": ["error", "never"],
     },
   },
 ];

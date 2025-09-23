@@ -1,5 +1,6 @@
 const request = require("supertest");
 const express = require("express");
+const { describe, it, expect } = require("jest");
 
 // Create a test app similar to your main app
 const app = express();
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
   res.status(200);
   res.json({
     success: true,
-    message: "hello world!",
+    message: "hello world!"
   });
 });
 
@@ -23,7 +24,7 @@ app.post("/", (req, res) => {
   res.status(200);
   res.json({
     success: true,
-    message: "Send a post request 💣",
+    message: "Send a post request 💣"
   });
 });
 
@@ -34,7 +35,7 @@ describe("Express API Tests", () => {
 
       expect(response.body).toEqual({
         success: true,
-        message: "hello world!",
+        message: "hello world!"
       });
     });
   });
@@ -45,7 +46,7 @@ describe("Express API Tests", () => {
 
       expect(response.body).toEqual({
         success: true,
-        message: "Send a post request 💣",
+        message: "Send a post request 💣"
       });
     });
   });
@@ -55,6 +56,7 @@ describe("Express API Tests", () => {
       const response = await request(app).get("/metrics").expect(200);
 
       expect(response.headers["content-type"]).toContain("text/plain");
+      expect(response.text).toContain("mock metrics");
     });
   });
 });
