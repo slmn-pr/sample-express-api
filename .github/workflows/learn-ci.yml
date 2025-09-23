@@ -1,0 +1,66 @@
+# This is a simple CI/CD workflow for learning
+# It runs every time you push code to GitHub
+
+name: Learn CI/CD
+
+# When does this workflow run?
+on:
+  push: # When you push code
+    branches: [main] # Only on the main branch
+  pull_request: # When someone creates a pull request
+    branches: [main] # Only for pull requests to main
+
+# What jobs do we want to run?
+jobs:
+  # Job 1: Test our code
+  test:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu machine
+
+    steps:
+      # Step 1: Get our code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js (we need this to run our app)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # Use Node.js version 20
+          cache: "npm" # Cache npm packages for speed
+
+      # Step 3: Install our dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run our tests
+      - name: Run tests
+        run: npm test
+
+      # Step 5: Check code quality
+      - name: Run linting
+        run: npm run lint
+
+  # Job 2: Build Docker image (only if tests pass)
+  build:
+    needs: test # Wait for test job to finish
+    runs-on: ubuntu-latest # Use another fresh Ubuntu machine
+    if: github.ref == 'refs/heads/main' # Only run on main branch
+
+    steps:
+      # Step 1: Get our code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 3: Build our Docker image
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Build from current directory
+          push: false # Don't push to registry (just build)
+          tags: express-api:latest # Tag our image
+          cache-from: type=gha # Use GitHub Actions cache
+          cache-to: type=gha,mode=max # Save cache for next time

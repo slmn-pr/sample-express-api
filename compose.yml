@@ -1,8 +1,8 @@
-version: "3.9"
 services:
-  express_api:
-    image: api
+  api:
+    # image: api
     build: .
+    # container_name: api
     ports:
       - "3000:3000"
     environment:
@@ -23,7 +23,7 @@ services:
       - "3001:3000"
 
   node-exporter:
-    image: prom/node-exporter:1.9.0
+    image: prom/node-exporter:v1.8.2
     ports:
       - "9100:9100"
     restart: unless-stopped
