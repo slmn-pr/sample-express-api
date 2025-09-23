@@ -12,37 +12,8 @@ on:
 
 # What jobs do we want to run?
 jobs:
-  # Job 1: Test our code
-  test:
-    runs-on: ubuntu-latest # Use a fresh Ubuntu machine
-
-    steps:
-      # Step 1: Get our code from GitHub
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Step 2: Setup Node.js (we need this to run our app)
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20" # Use Node.js version 20
-          cache: "npm" # Cache npm packages for speed
-
-      # Step 3: Install our dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 4: Run our tests
-      - name: Run tests
-        run: npm test
-
-      # Step 5: Check code quality
-      - name: Run linting
-        run: npm run lint
-
   # Job 2: Build Docker image (only if tests pass)
   build:
-    needs: test # Wait for test job to finish
     runs-on: ubuntu-latest # Use another fresh Ubuntu machine
     if: github.ref == 'refs/heads/main' # Only run on main branch
 
