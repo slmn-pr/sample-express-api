@@ -1,15 +1,5 @@
-import request from "supertest";
-import express from "express";
-import client from "prom-client";
-
-// Mock the prom-client to avoid issues in tests
-jest.mock("prom-client", () => ({
-  collectDefaultMetrics: jest.fn(),
-  register: {
-    contentType: "text/plain",
-    metrics: jest.fn().mockResolvedValue("mock metrics"),
-  },
-}));
+const request = require("supertest");
+const express = require("express");
 
 // Create a test app similar to your main app
 const app = express();
@@ -64,7 +54,7 @@ describe("Express API Tests", () => {
     it("should return metrics", async () => {
       const response = await request(app).get("/metrics").expect(200);
 
-      expect(response.headers["content-type"]).toBe("text/plain");
+      expect(response.headers["content-type"]).toContain("text/plain");
     });
   });
 });
